@@ -9,13 +9,14 @@
 </head>
 <body>
     <header>
-        <h1>Приветствуем в нашем казино</h1>
+        <h1>Приветствуем в нашем казино!</h1>
+        <h1>↓Здесь можно выбрать направление↓</h1>
         <nav>
             <ul>
-                <li><a href="{% url 'about' %}">О нас</a></li>
-                <li><a href="{% url 'contacts' %}">Контакты</a></li>
-                <li><a href="{% url 'games' %}">Игры</a></li>
-                <li><a href="{% url 'support' %}">Поддержка</a></li>
+                <li><a href="{% url 'games' %}" style="font-size: 22px; margin-right: 25px">Игры</a></li>
+                <li><a href="{% url 'about' %}" style="font-size: 22px; margin-right: 25px">О нас</a></li>
+                <li><a href="{% url 'contacts' %}" style="font-size: 22px; margin-right: 25px">Контакты</a></li>
+                <li><a href="{% url 'support' %}" style="font-size: 22px; margin-right: 25px">Поддержка</a></li>
             </ul>
         </nav>
     </header>

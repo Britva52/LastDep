@@ -1,18 +1,22 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, Courier New; /* Этот стиль остается, если хотите использовать эти шрифты везде */
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
+    background-color: #93abfb; /* Этот стиль остается, если хотите этот фон везде */
 }
 
-header {
+/* ====================================================== */
+/* ============ Закомментируйте ЭТИ стили! ============= */
+/* ====================================================== */
+
+/*header {
     background-color: #444;
     color: white;
     padding: 10px 0;
     text-align: center;
-}
+}*/
 
-nav ul {
+/*nav ul {
     list-style-type: none;
     padding: 0;
 }
@@ -25,9 +29,9 @@ nav ul li {
 nav a {
     color: white;
     text-decoration: none;
-}
+}*/
 
-section {
+/*section {
     padding: 20px;
 }
 
@@ -36,4 +40,90 @@ footer {
     padding: 10px 0;
     background-color: #444;
     color: white;
+}*/
+
+/* ====================================================== */
+/* ====== Стили для .games-page и .support-page ======== */
+/* ====================================================== */
+
+/* Стили для страницы "Поддержка" */
+.support-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.support-page h1 {
+    font-size: 2.5em;
+    color: #850000;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.support-page p {
+    text-align: center;  /* Или нужное выравнивание текста */
+}
+
+.support-page nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.support-page nav ul li {
+    margin: 0 10px;
+}
+
+.support-page nav a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    background-color: #008518;
+    border-radius: 7px;
+    transition: background-color 0.8s ease;
+}
+
+.support-page nav a:hover {
+    background-color: #852c00;
+}
+
+/* Стили для страницы "Игры" (пример) */
+.games-page h1 {
+    font-size: 2.5em;
+    color: #ff8b1f;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.games-page nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.games-page nav ul li {
+    margin: 0 10px;
+}
+
+.games-page nav a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    background-color: #008518;
+    border-radius: 7px;
+    transition: background-color 0.8s ease;
+}
+
+.games-page nav a:hover {
+    background-color: #852c00;
+}
+
+.games-page p {
+    text-align: center; /* Или нужное выравнивание текста */
 }
