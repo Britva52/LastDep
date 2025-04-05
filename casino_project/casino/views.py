@@ -28,9 +28,6 @@ def games(request):
     return render(request, 'games.html')
 
 
-def home(request):
-    return render(request, 'home.html')
-
-
 def roulette(request):
+    print("Функция roulette вызвана!")  # <---- Добавь эту строку
     return render(request, 'casino/roulette.html')

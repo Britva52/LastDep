@@ -131,6 +131,12 @@ footer {
     background-color: #d4a700;
 }
 
+.roulette-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #wheelCanvas {
     border: 2px solid #000;
     margin-bottom: 20px;
@@ -156,6 +162,43 @@ footer {
 
 #balance {
     font-weight: bold;
+}
+
+.table-container {
+    display: grid;
+    grid-template-columns: repeat(12, 30px);
+    grid-gap: 2px;
+    border: 2px solid #000;
+    margin-bottom: 20px;
+}
+
+.table-row {
+    display: flex;
+}
+
+.table-cell {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    color: black;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+.table-cell:hover {
+    background-color: rgba(255, 204, 0, 0.3);
+}
+
+.table-cell.zero {
+    background-color: green;
+    color: white;
+}
+
+.table-cell.selected {
+    background-color: yellow;
 }
 
 #result {
