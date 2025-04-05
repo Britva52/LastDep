@@ -2,18 +2,29 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScamLand</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'casino/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Winky Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Добро пожаловать в наш проект!</h1>
-<nav>
-    <ul>
-        <li><a href="{% url 'index' %}">Главная</a></li>
-         <li><a href="{% url 'about' %}">О нас</a></li>
-         <li><a href="{% url 'contacts' %}">Контакты</a></li>
-         <li><a href="{% url 'games' %}">Игры</a></li>
-         <li><a href="{% url 'support' %}">Поддержка</a></li>
-    </ul>
-</nav>
+    <div class="home-page">
+        <header>
+            <h1>Приветствуем в нашем казино!</h1>
+            <p class="subheader">↓Здесь можно выбрать направление↓</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="{% url 'games' %}">Игры</a></li>
+                <li><a href="{% url 'about' %}">О нас</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                <li><a href="{% url 'support' %}">Поддержка</a></li>
+            </ul>
+        </nav>
+    </div>
 </body>
 </html>

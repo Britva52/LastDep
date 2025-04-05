@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Колесо Фортуны</title>
+    {% load static %}  <!-- Обязательно загрузить static -->
+    <link rel="stylesheet" href="{% static 'casino/style.css' %}">
+</head>
+<body>
+    <h1>Колесо Фортуны</h1>
+    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+
+    <div>
+        <label for="betAmount">Ставка:</label>
+        <input type="number" id="betAmount" value="10">
+    </div>
+
+    <button id="spinButton">Вращать</button>
+
+    <div>
+        Баланс: <span id="balance">100</span>
+    </div>
+
+    <div>
+        Результат: <span id="result"></span>
+    </div>
+
+    <script src="{% static 'casino/script.js' %}"></script>
+</body>
+</html>

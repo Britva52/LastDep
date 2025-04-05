@@ -6,20 +6,25 @@
     <title>ScamLand</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'casino/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Winky Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Приветствуем в нашем казино!</h1>
-        <h1>↓Здесь можно выбрать направление↓</h1>
+    <div class="home-page">
+        <header>
+            <h1>Приветствуем в нашем казино!</h1>
+            <p class="subheader">↓Здесь можно выбрать направление↓</p>
+        </header>
+
         <nav>
             <ul>
-                <li><a href="{% url 'games' %}" style="font-size: 22px; margin-right: 25px">Игры</a></li>
-                <li><a href="{% url 'about' %}" style="font-size: 22px; margin-right: 25px">О нас</a></li>
-                <li><a href="{% url 'contacts' %}" style="font-size: 22px; margin-right: 25px">Контакты</a></li>
-                <li><a href="{% url 'support' %}" style="font-size: 22px; margin-right: 25px">Поддержка</a></li>
+                <li><a href="{% url 'games' %}">Игры</a></li>
+                <li><a href="{% url 'about' %}">О нас</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                <li><a href="{% url 'support' %}">Поддержка</a></li>
             </ul>
         </nav>
-    </header>
-    <!-- Остальной код -->
+    </div>
 </body>
 </html>

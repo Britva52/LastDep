@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информационная среда</title>
+    <title>Игры</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'casino/style.css' %}">
 </head>
@@ -17,6 +17,25 @@
                 <li><a href="{% url 'support' %}">Поддержка</a></li>
             </ul>
         </nav>
+        <h2>Колесо Фортуны</h2>
+        <canvas id="wheelCanvas" width="400" height="400"></canvas>
+
+        <div>
+            <label for="betAmount">Ставка:</label>
+            <input type="number" id="betAmount" value="10">
+        </div>
+
+        <button id="spinButton">Вращать</button>
+
+        <div>
+            Баланс: <span id="balance">100</span>
+        </div>
+
+        <div>
+            Результат: <span id="result"></span>
+        </div>
+
+        <script src="{% static 'casino/script.js' %}"></script>
     </div>
 </body>
 </html>
