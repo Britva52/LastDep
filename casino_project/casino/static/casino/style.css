@@ -1,34 +1,56 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Winky Sans', sans-serif; /* Современный шрифт без засечек */
+    background-color: #1a1a1a; /* Темный фон */
+    color: #fff; /* Белый текст */
     margin: 0;
     padding: 0;
-    background-color: #93abfb;
+    text-align: center; /* Центрируем текст по умолчанию */
 }
 
-/*
 header {
-    background-color: #444;
-    color: red;
-    padding: 10px 0;
     text-align: center;
+    margin-bottom: 30px;
 }
 
+header h1 {
+    font-size: 4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffcc00; /* Золотой цвет заголовка */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Тень для заголовка */
+}
 
+header p.subheader {
+    font-size: 1.5em;
+    color: #ccc; /* Светло-серый цвет для подзаголовка */
+}
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Центрируем элементы навигации */
 }
 
 nav ul li {
-    display: inline;
     margin: 0 15px;
 }
 
 nav a {
-    color: white;
     text-decoration: none;
-*/
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 12px 25px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid #ffcc00;
+}
+
+nav a:hover {
+    background-color: #ffcc00; /* Золотой фон при наведении */
+    color: #000; /* Черный текст при наведении */
+}
 
 section {
     padding: 20px;
@@ -39,87 +61,74 @@ footer {
     padding: 10px 0;
     background-color: #444;
     color: white;
+    margin-top: 30px; /* Отступ сверху */
 }
-
 
 .support-page {
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
+    text-align: left; /* Выравниваем текст по левому краю */
 }
 
-.support-page h1 {
-    font-size: 2.5em;
-    color: #850000;
-    margin-bottom: 20px;
-    text-align: center;
+.about-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left; /* Выравниваем текст по левому краю */
 }
 
-.support-page p {
-    text-align: center;
-}
-
-.support-page nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.support-page nav ul li {
-    margin: 0 10px;
-}
-
-.support-page nav a {
-    display: block;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: white;
-    background-color: #008518;
-    border-radius: 7px;
-    transition: background-color 0.6s ease;
-}
-
-.support-page nav a:hover {
-    background-color: #852c00;
+.games-page {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #333; /* Вот этот стиль нужно изменить */
+    border-radius: 10px;
 }
 
 .games-page h1 {
-    font-size: 2.5em;
-    color: #ff8b1f;
+    color: #ffcc00;
     margin-bottom: 20px;
-    text-align: center;
+}
+
+.games-page h2 {
+    color: #eee;
+    margin-top: 30px;
 }
 
 .games-page nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
     justify-content: center;
 }
 
-.games-page nav ul li {
-    margin: 0 10px;
+.games-page div {
+    margin-top: 20px;
+    color: #eee;
 }
 
-.games-page nav a {
-    display: block;
+.games-page label {
+    margin-right: 10px;
+}
+
+.games-page input[type="number"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: #444;
+    color: #eee;
+}
+
+.games-page button {
     padding: 10px 20px;
-    text-decoration: none;
-    color: white;
-    background-color: #008518;
-    border-radius: 7px;
-    transition: background-color 0.6s ease;
+    background-color: #ffcc00;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
 }
 
-.games-page nav a:hover {
-    background-color: #852c00;
-}
-
-.games-page p {
-    text-align: center;
+.games-page button:hover {
+    background-color: #d4a700;
 }
 
 #wheelCanvas {
@@ -151,6 +160,7 @@ footer {
 
 #result {
     margin-top: 10px;
+}
 
 .home-page {
     display: flex;
@@ -159,147 +169,11 @@ footer {
     justify-content: center;
     min-height: 100vh;
     padding: 20px;
-    text-align: center;
-}
-
-.home-page header {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-}
-
-.home-page h1 {
-    font-size: 3em;
-    margin-bottom: 10px;
-}
-
-.home-page .subheader {
-    font-size: 2.2em;
-    color: #ddd;
-}
-
-.home-page nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-}
-
-.home-page nav ul li {
-    margin: 0 15px;
-}
-
-.home-page nav a {
-    display: block;
-    padding: 12px 24px;
-    text-decoration: none;
-    color: white;
-    background-color: #007bff;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-    font-size: 1.1em;
-}
-
-.home-page nav a:hover {
-    background-color: #0056b3;
-}
-
-.home-page header {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.home-page nav a {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.about-page {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.about-page h1 {
-    font-size: 2.5em;
-    color: #850000;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.about-page p {
-    text-align: center;
-}
-
-.about-page nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.about-page nav ul li {
-    margin: 0 10px;
-}
-
-.about-page nav a {
-    display: block;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: white;
-    background-color: #008518;
-    border-radius: 7px;
-    transition: background-color 0.6s ease;
-}
-
-.about-page nav a:hover {
-    background-color: #852c00;
+    background: linear-gradient(to bottom, #222, #1a1a1a); /* Градиентный фон */
 }
 
 .contacts-page {
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
-}
-
-.contacts-page h1 {
-    font-size: 2.5em;
-    color: #850000;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.contacts-page p {
-    text-align: center;
-}
-
-.contacts-page nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.contacts-page nav ul li {
-    margin: 0 10px;
-}
-
-.contacts-page nav a {
-    display: block;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: white;
-    background-color: #008518;
-    border-radius: 7px;
-    transition: background-color 0.6s ease;
-}
-
-.contacts-page nav a:hover {
-    background-color: #852c00;
-}
-
-body {
-    font-family: 'Winky Sans', sans-serif;
 }

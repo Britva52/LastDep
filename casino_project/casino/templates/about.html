@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информационная среда</title>
+    <title>SUPPORT</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'casino/style.css' %}">
 </head>
 <body>
-    <div class="about-page">
-        <h1>О нас</h1>
-        <p>Здесь будет информация о проекте.</p>
+    <div class="home-page">
+        <header>
+            <h1>ABOUT</h1>
+            <p class="subheader"></p>
+        </header>
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Главная</a></li>
-                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                <li><a href="{% url 'about' %}">О нас</a></li>
                 <li><a href="{% url 'games' %}">Игры</a></li>
-                <li><a href="{% url 'support' %}">Поддержка</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
             </ul>
         </nav>
+        <section class="about-page">
+        </section>
+        <footer>
+            <p>&copy; 2025 LastDep Казино</p>
+        </footer>
     </div>
 </body>
 </html>

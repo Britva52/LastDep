@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информационная среда</title>
+    <title>CONTACTS</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'casino/style.css' %}">
 </head>
 <body>
-    <div class="games-page">
-        <h1>Контакты</h1>
-        <p>Здесь будет информация для связи.</p>
+    <div class="contacts-page">
+        <header>
+            <h1>CONTACTS</h1>
+            <p class="subheader"></p>
+        </header>
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Главная</a></li>
@@ -19,6 +21,11 @@
                 <li><a href="{% url 'support' %}">Поддержка</a></li>
             </ul>
         </nav>
+        <section class="contacts-page">
+        </section>
+        <footer>
+            <p>&copy; 2025 LastDep Казино</p>
+        </footer>
     </div>
 </body>
 </html>
