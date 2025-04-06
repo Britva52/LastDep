@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 def home(request):
     print("Страница 'Главная' была вызвана")
@@ -18,16 +23,55 @@ def contacts(request):
     print("Страница 'Контакты' была вызвана")
     return render(request, 'contacts.html')
 
+
 def support(request):
     print("Страница 'Поддержка' была вызвана")
     return render(request, 'support.html')
 
 
-def games(request):
-    print("Страница 'Игры' была вызвана")
-    return render(request, 'games.html')
-
-
 def roulette(request):
-    print("Функция roulette вызвана!")  # <---- Добавь эту строку
     return render(request, 'casino/roulette.html')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"Вы вошли как {username}!")
+                return redirect('index')  # Перенаправление на главную страницу
+            else:
+                messages.error(request, "Неверное имя пользователя или пароль.")
+        else:
+            messages.error(request, "Пожалуйста, исправьте ошибки в форме.")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'casino/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    messages.info(request, "Вы успешно вышли из системы.")
+    return redirect('index')
+
+def register_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"Вы успешно зарегистрировались как {username}!")
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.error(request, "Пожалуйста, исправьте ошибки в форме.")
+    else:
+        form = UserCreationForm()
+    return render(request, 'casino/register.html', {'form': form})
+
+@login_required
+def games(request):
+    return render(request, 'casino/games.html')

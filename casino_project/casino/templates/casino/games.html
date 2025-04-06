@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMES</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'casino/style.css' %}">
+</head>
+<body>
+    <div class="games-page">
+        <h1>GAMES ZONE</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li><a href="{% url 'support' %}">Поддержка</a></li>
+            </ul>
+        </nav>
+        <h2>Колесо Фортуны</h2>
+        <canvas id="wheelCanvas" width="500" height="500"></canvas>
+
+        <div class="table-container">
+            <div class="table-row">
+                <div class="table-cell zero" data-number="0">0</div>
+                <div class="table-cell" data-number="1">1</div>
+                <div class="table-cell" data-number="2">2</div>
+                <div class="table-cell" data-number="3">3</div>
+                <div class="table-cell" data-number="4">4</div>
+                <div class="table-cell" data-number="5">5</div>
+                <div class="table-cell" data-number="6">6</div>
+                <div class="table-cell" data-number="7">7</div>
+                <div class="table-cell" data-number="8">8</div>
+                <div class="table-cell" data-number="9">9</div>
+                <div class="table-cell" data-number="10">10</div>
+                <div class="table-cell" data-number="11">11</div>
+                <div class="table-cell" data-number="12">12</div>
+            </div>
+
+            <div class="table-row">
+                <div class="table-cell" data-number="13">13</div>
+                <div class="table-cell" data-number="14">14</div>
+                <div class="table-cell" data-number="15">15</div>
+                <div class="table-cell" data-number="16">16</div>
+                <div class="table-cell" data-number="17">17</div>
+                <div class="table-cell" data-number="18">18</div>
+                <div class="table-cell" data-number="19">19</div>
+                <div class="table-cell" data-number="20">20</div>
+                <div class="table-cell" data-number="21">21</div>
+                <div class="table-cell" data-number="22">22</div>
+                <div class="table-cell" data-number="23">23</div>
+                <div class="table-cell" data-number="24">24</div>
+            </div>
+
+            <div class="table-row">
+                <div class="table-cell" data-number="25">25</div>
+                <div class="table-cell" data-number="26">26</div>
+                <div class="table-cell" data-number="27">27</div>
+                <div class="table-cell" data-number="28">28</div>
+                <div class="table-cell" data-number="29">29</div>
+                <div class="table-cell" data-number="30">30</div>
+                <div class="table-cell" data-number="31">31</div>
+                <div class="table-cell" data-number="32">32</div>
+                <div class="table-cell" data-number="33">33</div>
+                <div class="table-cell" data-number="34">34</div>
+                <div class="table-cell" data-number="35">35</div>
+                <div class="table-cell" data-number="36">36</div>
+            </div>
+        </div>
+
+        <div>
+            <label for="betAmount">Ставка:</label>
+            <input type="number" id="betAmount" value="0">
+        </div>
+
+        <button id="spinButton">Вращать</button>
+
+        <div>
+            Баланс: <span id="balance">100</span>
+        </div>
+
+        <div>
+            Результат: <span id="result"></span>
+        </div>
+
+        <script src="{% static 'casino/script.js' %}"></script>
+    </div>
+</body>
+</html>
