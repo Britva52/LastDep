@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('wheelCanvas');
     const ctx = canvas.getContext('2d');
+    const wheelContainer = document.querySelector('.wheel-container') || document.body;
+
+    // Создаем стрелку
     const arrow = document.createElement('div');
-    arrow.id = 'arrow';
-    document.body.appendChild(arrow);
+    arrow.className = 'wheel-arrow';
+    wheelContainer.appendChild(arrow);
 
     const sectors = [
         { label: '0', color: 'green', payout: 35 },
@@ -67,14 +70,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function positionArrow() {
         arrow.style.position = 'absolute';
-        arrow.style.top = `${canvas.offsetTop - 40}px`;
-        arrow.style.left = `${canvas.offsetLeft + canvas.width / 2 - 10}px`;
+        arrow.style.bottom = '0';
+        arrow.style.left = '50%';
+        arrow.style.transform = 'translateX(-50%) translateY(50%)';
         arrow.style.width = '0';
         arrow.style.height = '0';
-        arrow.style.borderLeft = '15px solid transparent';
-        arrow.style.borderRight = '15px solid transparent';
-        arrow.style.borderBottom = '30px solid red';
-        arrow.style.zIndex = '10';
+        arrow.style.borderLeft = '20px solid transparent';
+        arrow.style.borderRight = '20px solid transparent';
+        arrow.style.borderTop = '30px solid gold';
+        arrow.style.borderBottom = 'none';
+        arrow.style.zIndex = '100';
+        arrow.style.filter = 'drop-shadow(0 0 5px rgba(255,215,0,0.7))';
     }
 
     function spinWheel() {
@@ -109,7 +115,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let payout = 0;
         let animationDuration = 3000;
         let startTime = null;
-        let finalRotation = (winningNumberIndex * (2 * Math.PI / sectors.length)) + (2 * Math.PI * 5);
+
+        // 5 полных оборотов + доворот до выигрышного сектора с учетом стрелки
+        const fullRotations = 5;
+        const sectorAngle = 2 * Math.PI / sectors.length;
+        const finalRotation = (fullRotations * 2 * Math.PI) +
+                            (winningNumberIndex * sectorAngle) -
+                            (Math.PI/2);
 
         function animate(currentTime) {
             if (!startTime) startTime = currentTime;
@@ -120,6 +132,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (progress < animationDuration) {
                 requestAnimationFrame(animate);
             } else {
+                // Фиксация точного положения
+                currentRotation = (winningNumberIndex * sectorAngle) - (Math.PI/2);
+                drawWheel();
+
                 if (winningNumber == selectedNumber) {
                     payout = bet * 35;
                     balance += payout;
@@ -150,16 +166,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll('.table-cell').forEach(cell => {
         cell.addEventListener('click', function() {
+            if (spinning) return;
             document.querySelectorAll('.table-cell').forEach(c => c.classList.remove('selected'));
             this.classList.add('selected');
             selectedNumber = this.dataset.number;
             document.getElementById('selectedNumberDisplay').innerText = selectedNumber;
-            console.log('Выбрано число:', selectedNumber);
         });
     });
 
+    // Инициализация
     drawWheel();
+    positionArrow();
     updateBalance();
-    window.addEventListener("resize", positionArrow);
+
+    // Обработчики событий
+    window.addEventListener('resize', () => {
+        drawWheel();
+        positionArrow();
+    });
+
     document.getElementById("spinButton").addEventListener("click", spinWheel);
 });
