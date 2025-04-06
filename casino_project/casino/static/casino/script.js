@@ -1,7 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const canvas = document.getElementById('wheelCanvas');
-    const ctx = canvas.getContext('2d');
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+
+if (!canvas) {
+    console.error("Canvas элемент не найден!");
+}
+
+if (!ctx) {
+    console.error("Не удалось получить 2D контекст canvas!");
+}
     const sectors = [
+        { label: '00', color: 'green', payout: 35 },
         { label: '0', color: 'green', payout: 35 },
         { label: '1', color: 'red', payout: 35 }, { label: '2', color: 'black', payout: 35 },
         { label: '3', color: 'red', payout: 35 }, { label: '4', color: 'black', payout: 35 },
@@ -30,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let spinning = false;
 
     function drawWheel() {
+        console.log("Функция drawWheel вызвана!");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;

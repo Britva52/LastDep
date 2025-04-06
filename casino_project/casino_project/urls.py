@@ -4,11 +4,12 @@ from casino import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('roulette/', include('casino.urls')),
     path('', views.home, name='index'),
     path('index/', views.index, name='index'),
     path('about/', views.about, name='about'),
     path('support/', views.support, name='support'),
     path('contacts/', views.contacts, name='contacts'),
     path('games/', views.games, name='games'),
-    path('casino/', include('casino.urls')),
+    path('admin/', admin.site.urls),
 ]

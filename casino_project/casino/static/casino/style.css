@@ -164,12 +164,17 @@ footer {
     font-weight: bold;
 }
 
-.table-container {
-    display: grid;
-    grid-template-columns: repeat(12, 30px);
-    grid-gap: 2px;
-    border: 2px solid #000;
-    margin-bottom: 20px;
+.table-cell {
+    width: 50px; /*  <---  Измени ширину */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    color: black;
+    font-size: 0.8em;
+    cursor: pointer;
+    box-sizing: border-box; /*  <---  Добавь это */
 }
 
 .table-row {
@@ -199,11 +204,13 @@ footer {
 
 .table-cell.selected {
     background-color: yellow;
+    color: black;
 }
 
 #result {
     margin-top: 10px;
 }
+
 
 .home-page {
     display: flex;
