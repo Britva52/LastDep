@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('wheelCanvas');
     const ctx = canvas.getContext('2d');
+    const arrow = document.createElement('div');
+    arrow.id = 'arrow';
+    document.body.appendChild(arrow);
+
     const sectors = [
         { label: '0', color: 'green', payout: 35 },
         { label: '1', color: 'red', payout: 35 }, { label: '2', color: 'black', payout: 35 },
@@ -57,6 +61,20 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.fillText(sectors[i].label, radius / 2, 5);
             ctx.restore();
         }
+
+        positionArrow();
+    }
+
+    function positionArrow() {
+        arrow.style.position = 'absolute';
+        arrow.style.top = `${canvas.offsetTop - 40}px`;
+        arrow.style.left = `${canvas.offsetLeft + canvas.width / 2 - 10}px`;
+        arrow.style.width = '0';
+        arrow.style.height = '0';
+        arrow.style.borderLeft = '15px solid transparent';
+        arrow.style.borderRight = '15px solid transparent';
+        arrow.style.borderBottom = '30px solid red';
+        arrow.style.zIndex = '10';
     }
 
     function spinWheel() {
@@ -142,5 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     drawWheel();
     updateBalance();
+    window.addEventListener("resize", positionArrow);
     document.getElementById("spinButton").addEventListener("click", spinWheel);
 });
