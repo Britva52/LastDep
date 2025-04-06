@@ -227,3 +227,68 @@ footer {
     max-width: 800px;
     margin: 0 auto;
 }
+
+.auth-page {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.auth-page h1 {
+    color: #ffcc00;
+    margin-bottom: 20px;
+}
+
+.auth-page form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-page form p {
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+}
+
+.auth-page form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eee;
+}
+
+.auth-page form input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background-color: #444;
+    color: #eee;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.auth-page button {
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.auth-page button:hover {
+    background-color: #d4a700;
+}
+
+.auth-page a {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+.auth-page a:hover {
+    text-decoration: underline;
+}
