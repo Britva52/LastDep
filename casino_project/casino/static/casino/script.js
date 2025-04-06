@@ -1,17 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('wheelCanvas');
     const ctx = canvas.getContext('2d');
-
-    if (!canvas) {
-        console.error("Canvas элемент не найден!");
-        return; // Важно: выходим из функции, если canvas не найден
-    }
-
-    if (!ctx) {
-        console.error("Не удалось получить 2D контекст canvas!");
-        return; // Важно: выходим из функции, если контекст не получен
-    }
-
     const sectors = [
         { label: '0', color: 'green', payout: 35 },
         { label: '1', color: 'red', payout: 35 }, { label: '2', color: 'black', payout: 35 },
@@ -41,8 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let spinning = false;
 
     function drawWheel() {
-        if (!ctx) return; // Проверка, что ctx существует
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
@@ -73,104 +60,67 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function spinWheel() {
-    if (spinning) return;
-    spinning = true;
+        if (spinning) return;
+        spinning = true;
 
-    bet = parseInt(document.getElementById("betAmount").value);
+        bet = parseInt(document.getElementById("betAmount").value);
 
-    if (isNaN(bet) || bet <= 0) {
-        alert("Пожалуйста, введите корректную ставку.");
-        spinning = false;
-        return;
-    }
-
-    if (bet > balance) {
-        alert("Недостаточно средств");
-        spinning = false;
-        return;
-    }
-
-    if (selectedNumber === null) {
-        alert("Пожалуйста, выберите номер на столе.");
-        spinning = false;
-        return;
-    }
-
-    balance -= bet;
-    updateBalance();
-
-    let payout = 0;
-    // ***Добавлено: Случайные параметры анимации***
-    const minDuration = 2500; // Минимальная длительность анимации (мс)
-    const maxDuration = 4500; // Максимальная длительность анимации (мс)
-    const animationDuration = Math.random() * (maxDuration - minDuration) + minDuration;
-
-    const minRotationSpeed = 2 * Math.PI * 2; // Минимальная скорость вращения (оборотов в секунду)
-    const maxRotationSpeed = 2 * Math.PI * 4; // Максимальная скорость вращения (оборотов в секунду)
-    const rotationSpeed = Math.random() * (maxRotationSpeed - minRotationSpeed) + minRotationSpeed;
-
-    // ***Добавлено: Случайный начальный сдвиг колеса***
-    const randomInitialRotation = Math.random() * 2 * Math.PI;
-    currentRotation = randomInitialRotation;
-
-    let startTime = null;
-
-    function animate(currentTime) {
-        if (!startTime) startTime = currentTime;
-        const progress = currentTime - startTime;
-        currentRotation = randomInitialRotation + (progress / animationDuration) * rotationSpeed; // rotationSpeed теперь влияет
-
-        drawWheel();
-
-        if (progress < animationDuration) {
-            requestAnimationFrame(animate);
-        } else {
-            drawWheel(); // Ensure final draw
-
-            let winningAngle = currentRotation % (2 * Math.PI);
-
-            if (winningAngle < 0) {
-                winningAngle += 2 * Math.PI;
-            }
-
-            let winningSectorIndex = -1;
-            const anglePerSector = 2 * Math.PI / sectors.length;
-
-            for (let i = 0; i < sectors.length; i++) {
-                const startAngle = i * anglePerSector;
-                const endAngle = (i + 1) * anglePerSector;
-
-                if (winningAngle >= startAngle - Number.EPSILON && winningAngle < endAngle + Number.EPSILON) {
-                    winningSectorIndex = i;
-                    break;
-                }
-            }
-
-            let winningNumber = null;
-            if (winningSectorIndex !== -1) {
-                winningNumber = sectors[winningSectorIndex].label;
-            } else {
-                console.error("Не удалось определить выигрышный сектор!");
-            }
-
-            console.log(`Выбранное число: ${selectedNumber}, Выпавшее число: ${winningNumber}, winningAngle: ${winningAngle}`);
-
-            if (winningNumber == selectedNumber) {
-                payout = bet * 35;
-                balance += payout;
-                updateBalance();
-                displayResult(`Вы выиграли ${payout}! Выпало: ${winningNumber}`);
-            } else {
-                displayResult(`Вы проиграли. Выпало: ${winningNumber}`);
-            }
+        if (isNaN(bet) || bet <= 0) {
+            alert("Пожалуйста, введите корректную ставку.");
             spinning = false;
+            return;
         }
-    }
-    requestAnimationFrame(animate);
 
-    selectedNumber = null;
-    document.getElementById('selectedNumberDisplay').innerText = '';
-}
+        if (bet > balance) {
+            alert("Недостаточно средств");
+            spinning = false;
+            return;
+        }
+
+        if (selectedNumber === null) {
+            alert("Пожалуйста, выберите номер на столе.");
+            spinning = false;
+            return;
+        }
+
+        balance -= bet;
+        updateBalance();
+
+        const winningNumberIndex = Math.floor(Math.random() * sectors.length);
+        const winningNumber = sectors[winningNumberIndex].label;
+        let payout = 0;
+        let animationDuration = 3000;
+        let startTime = null;
+        let finalRotation = (winningNumberIndex * (2 * Math.PI / sectors.length)) + (2 * Math.PI * 5);
+
+        function animate(currentTime) {
+            if (!startTime) startTime = currentTime;
+            const progress = currentTime - startTime;
+            currentRotation = easeOut(progress, 0, finalRotation, animationDuration);
+            drawWheel();
+
+            if (progress < animationDuration) {
+                requestAnimationFrame(animate);
+            } else {
+                if (winningNumber == selectedNumber) {
+                    payout = bet * 35;
+                    balance += payout;
+                    updateBalance();
+                    displayResult(`Вы выиграли ${payout}! Выпало: ${winningNumber}`);
+                } else {
+                    displayResult(`Вы проиграли. Выпало: ${winningNumber}`);
+                }
+                spinning = false;
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    function easeOut(t, b, c, d) {
+        t /= d;
+        t--;
+        return c * (t * t * t + 1) + b;
+    }
 
     function updateBalance() {
         document.getElementById("balance").innerText = balance;

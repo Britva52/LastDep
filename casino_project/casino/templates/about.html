@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUPPORT</title>
+    <title>ABOUT</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'casino/style.css' %}">
 </head>
 <body>
     <div class="home-page">
         <header>
-            <h1>ABOUT</h1>
+            <h1>About</h1>
             <p class="subheader"></p>
         </header>
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Главная</a></li>
-                <li><a href="{% url 'about' %}">О нас</a></li>
                 <li><a href="{% url 'games' %}">Игры</a></li>
                 <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                <li><a href="{% url 'support' %}">Поддержка</a></li>
             </ul>
         </nav>
         <section class="about-page">
