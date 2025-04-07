@@ -1,17 +1,32 @@
-body {
-    font-family: Winky Sans;
-    background-color: #1a1a1a;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
 header {
     text-align: center;
     margin-bottom: 30px;
     padding: 20px 0;
-    background: linear-gradient(to right, #2c3e50, #1a1a1a);
+    background: linear-gradient(to right, #000000, #0a0a0a, #202020, #cca353, #ffc872);
+}
+
+.table-cell,
+#spinButton,
+nav a,
+nav ul li a {
+    cursor: none !important;
+}
+
+/* Стиль для золотого кружка (курсора) */
+body {
+    cursor: none;
+}
+
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background-color: gold;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
 }
 
 header h1 {
@@ -68,22 +83,20 @@ section {
 }
 
 footer {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #2c3e50;
+    background-color: transparent;
     color: white;
-    margin-top: 30px;
-    font-size: 0.9em;
+    text-align: center;
+    padding: 10px 0;
 }
 
 .games-page {
     max-width: 1000px;
     margin: 20px auto;
     padding: 30px;
-    background-color: #2c3e50;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
+
 
 .games-page h1 {
     color: #ffcc00;
@@ -139,7 +152,6 @@ footer {
     pointer-events: none;
 }
 
-
 .wheel-arrow:after {
     content: '';
     position: absolute;
@@ -165,7 +177,7 @@ footer {
 .table-row {
     display: flex;
     justify-content: center;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .table-cell {
@@ -322,13 +334,13 @@ footer {
 }
 
 .win-result {
-    background-color: rgba(46, 204, 113, 0.2) !important;
+    background-color: rgba(46, 204, 113, 0.2);
     color: #2ecc71;
     animation: pulse 1.5s infinite;
 }
 
 .lose-result {
-    background-color: rgba(231, 76, 60, 0.2) !important;
+    background-color: rgba(231, 76, 60, 0.2);
     color: #e74c3c;
 }
 
@@ -338,7 +350,6 @@ footer {
     100% { transform: scale(1); }
 }
 
-/* Адаптивные стили */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2.5em;
