@@ -1,153 +1,161 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Кастомный золотой курсор
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+    document.body.style.cursor = 'none';
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+    });
+
+    const interactiveElements = document.querySelectorAll('button, input, .table-cell, a');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('active');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+        });
+    });
+
+    // Логика рулетки
     const canvas = document.getElementById('wheelCanvas');
     const ctx = canvas.getContext('2d');
-    const wheelContainer = document.querySelector('.wheel-container') || document.body;
+    const betInput = document.getElementById('betAmount');
+    const balanceDisplay = document.getElementById('balance');
+    const resultDisplay = document.getElementById('result');
+    const spinButton = document.getElementById('spinButton');
+    const selectedNumberDisplay = document.getElementById('selectedNumberDisplay');
 
-    // Создаем стрелку
-    const arrow = document.createElement('div');
-    arrow.className = 'wheel-arrow';
-    wheelContainer.appendChild(arrow);
+    const state = {
+        balance: 1000,
+        currentBet: 0,
+        selectedNumber: null,
+        isSpinning: false,
+        currentRotation: 0
+    };
 
-    const sectors = [
-        { label: '0', color: 'green', payout: 35 },
-        { label: '1', color: 'red', payout: 35 }, { label: '2', color: 'black', payout: 35 },
-        { label: '3', color: 'red', payout: 35 }, { label: '4', color: 'black', payout: 35 },
-        { label: '5', color: 'red', payout: 35 }, { label: '6', color: 'black', payout: 35 },
-        { label: '7', color: 'red', payout: 35 }, { label: '8', color: 'black', payout: 35 },
-        { label: '9', color: 'red', payout: 35 }, { label: '10', color: 'black', payout: 35 },
-        { label: '11', color: 'red', payout: 35 }, { label: '12', color: 'black', payout: 35 },
-        { label: '13', color: 'red', payout: 35 }, { label: '14', color: 'black', payout: 35 },
-        { label: '15', color: 'red', payout: 35 }, { label: '16', color: 'black', payout: 35 },
-        { label: '17', color: 'red', payout: 35 }, { label: '18', color: 'black', payout: 35 },
-        { label: '19', color: 'red', payout: 35 }, { label: '20', color: 'black', payout: 35 },
-        { label: '21', color: 'red', payout: 35 }, { label: '22', color: 'black', payout: 35 },
-        { label: '23', color: 'red', payout: 35 }, { label: '24', color: 'black', payout: 35 },
-        { label: '25', color: 'red', payout: 35 }, { label: '26', color: 'black', payout: 35 },
-        { label: '27', color: 'red', payout: 35 }, { label: '28', color: 'black', payout: 35 },
-        { label: '29', color: 'red', payout: 35 }, { label: '30', color: 'black', payout: 35 },
-        { label: '31', color: 'red', payout: 35 }, { label: '32', color: 'black', payout: 35 },
-        { label: '33', color: 'red', payout: 35 }, { label: '34', color: 'black', payout: 35 },
-        { label: '35', color: 'red', payout: 35 }, { label: '36', color: 'black', payout: 35 }
-    ];
+    const sectors = [];
+    const redNumbers = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
 
-    let balance = 100;
-    let bet = 0;
-    let currentRotation = 0;
-    let selectedNumber = null;
-    let spinning = false;
-
-    function drawWheel() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) - 10;
-        const totalSectors = sectors.length;
-        const anglePerSector = 2 * Math.PI / totalSectors;
-
-        for (let i = 0; i < totalSectors; i++) {
-            const startAngle = i * anglePerSector + currentRotation;
-            const endAngle = startAngle + anglePerSector;
-
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-            ctx.fillStyle = sectors[i].color;
-            ctx.fill();
-            ctx.closePath();
-
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate(startAngle + anglePerSector / 2);
-            ctx.fillStyle = 'white';
-            ctx.font = '14px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(sectors[i].label, radius / 2, 5);
-            ctx.restore();
-        }
-
-        positionArrow();
+    for (let i = 0; i <= 36; i++) {
+        sectors.push({
+            number: i,
+            color: i === 0 ? 'green' : redNumbers.includes(i) ? 'red' : 'black',
+            angle: (i * 2 * Math.PI) / 37
+        });
     }
 
-    function positionArrow() {
-        arrow.style.position = 'absolute';
-        arrow.style.bottom = '0';
-        arrow.style.left = '50%';
-        arrow.style.transform = 'translateX(-50%) translateY(50%)';
-        arrow.style.width = '0';
-        arrow.style.height = '0';
-        arrow.style.borderLeft = '20px solid transparent';
-        arrow.style.borderRight = '20px solid transparent';
-        arrow.style.borderTop = '30px solid gold';
-        arrow.style.borderBottom = 'none';
-        arrow.style.zIndex = '100';
-        arrow.style.filter = 'drop-shadow(0 0 5px rgba(255,215,0,0.7))';
+    function drawWheel() {
+        const center = canvas.width / 2;
+        const radius = center - 20;
+        const sectorAngle = (2 * Math.PI) / sectors.length;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.arc(center, center, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#2c3e50';
+        ctx.fill();
+
+        sectors.forEach((sector, i) => {
+            const startAngle = i * sectorAngle + state.currentRotation;
+            const endAngle = startAngle + sectorAngle;
+
+            ctx.beginPath();
+            ctx.moveTo(center, center);
+            ctx.arc(center, center, radius, startAngle, endAngle);
+            ctx.fillStyle = sector.color;
+            ctx.fill();
+
+            ctx.save();
+            ctx.translate(center, center);
+            ctx.rotate(startAngle + sectorAngle / 2);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText(sector.number, radius * 0.7, 0);
+            ctx.restore();
+        });
+
+        ctx.beginPath();
+        ctx.arc(center, center, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ecf0f1';
+        ctx.fill();
     }
 
     function spinWheel() {
-        if (spinning) return;
-        spinning = true;
+        if (state.isSpinning) return;
 
-        bet = parseInt(document.getElementById("betAmount").value);
-
-        if (isNaN(bet) || bet <= 0) {
-            alert("Пожалуйста, введите корректную ставку.");
-            spinning = false;
+        state.currentBet = parseInt(betInput.value);
+        if (isNaN(state.currentBet) || state.currentBet <= 0) {
+            alert("Пожалуйста, введите корректную сумму ставки!");
             return;
         }
 
-        if (bet > balance) {
-            alert("Недостаточно средств");
-            spinning = false;
+        if (state.currentBet > state.balance) {
+            alert("Недостаточно средств на балансе!");
             return;
         }
 
-        if (selectedNumber === null) {
-            alert("Пожалуйста, выберите номер на столе.");
-            spinning = false;
+        if (state.selectedNumber === null) {
+            alert("Пожалуйста, выберите число!");
             return;
         }
 
-        balance -= bet;
-        updateBalance();
+        state.isSpinning = true;
+        state.balance -= state.currentBet;
+        updateUI();
 
-        const winningNumberIndex = Math.floor(Math.random() * sectors.length);
-        const winningNumber = sectors[winningNumberIndex].label;
-        let payout = 0;
-        let animationDuration = 3000;
-        let startTime = null;
+        const spinDuration = 3000;
+        const startTime = Date.now();
+        const winningNumberIndex = Math.floor(Math.random() * 37);
+        const winningNumber = sectors[winningNumberIndex].number;
+        const rotations = 5;
+        const finalRotation = (rotations * 2 * Math.PI) + (winningNumberIndex * (2 * Math.PI / 37)) + (Math.PI/2);
 
-        // 5 полных оборотов + доворот до выигрышного сектора с учетом стрелки
-        const fullRotations = 5;
-        const sectorAngle = 2 * Math.PI / sectors.length;
-        const finalRotation = (fullRotations * 2 * Math.PI) +
-                            (winningNumberIndex * sectorAngle) -
-                            (Math.PI/2);
+        function animate() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / spinDuration, 1);
+            state.currentRotation = easeOut(progress, 0, finalRotation, spinDuration);
 
-        function animate(currentTime) {
-            if (!startTime) startTime = currentTime;
-            const progress = currentTime - startTime;
-            currentRotation = easeOut(progress, 0, finalRotation, animationDuration);
             drawWheel();
 
-            if (progress < animationDuration) {
+            if (progress < 1) {
                 requestAnimationFrame(animate);
             } else {
-                // Фиксация точного положения
-                currentRotation = (winningNumberIndex * sectorAngle) - (Math.PI/2);
-                drawWheel();
-
-                if (winningNumber == selectedNumber) {
-                    payout = bet * 35;
-                    balance += payout;
-                    updateBalance();
-                    displayResult(`Вы выиграли ${payout}! Выпало: ${winningNumber}`);
-                } else {
-                    displayResult(`Вы проиграли. Выпало: ${winningNumber}`);
-                }
-                spinning = false;
+                finishSpin(winningNumber);
             }
         }
+
         requestAnimationFrame(animate);
+    }
+
+    function finishSpin(winningNumber) {
+        state.isSpinning = false;
+
+        if (winningNumber == state.selectedNumber) {
+            const winAmount = state.currentBet * 35;
+            state.balance += winAmount;
+            resultDisplay.textContent = `Победа! Выпало ${winningNumber}. Выигрыш: ${winAmount}`;
+            resultDisplay.className = 'win-result';
+        } else {
+            resultDisplay.textContent = `Проигрыш. Выпало: ${winningNumber}`;
+            resultDisplay.className = 'lose-result';
+        }
+
+        updateUI();
     }
 
     function easeOut(t, b, c, d) {
@@ -156,34 +164,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return c * (t * t * t + 1) + b;
     }
 
-    function updateBalance() {
-        document.getElementById("balance").innerText = balance;
-    }
-
-    function displayResult(message) {
-        document.getElementById("result").innerText = message;
+    function updateUI() {
+        balanceDisplay.textContent = state.balance;
     }
 
     document.querySelectorAll('.table-cell').forEach(cell => {
         cell.addEventListener('click', function() {
-            if (spinning) return;
-            document.querySelectorAll('.table-cell').forEach(c => c.classList.remove('selected'));
+            if (state.isSpinning) return;
+
+            document.querySelectorAll('.table-cell').forEach(c => {
+                c.classList.remove('selected');
+            });
+
             this.classList.add('selected');
-            selectedNumber = this.dataset.number;
-            document.getElementById('selectedNumberDisplay').innerText = selectedNumber;
+            state.selectedNumber = parseInt(this.dataset.number);
+            selectedNumberDisplay.textContent = state.selectedNumber;
         });
     });
 
-    // Инициализация
+    spinButton.addEventListener('click', spinWheel);
+
     drawWheel();
-    positionArrow();
-    updateBalance();
-
-    // Обработчики событий
-    window.addEventListener('resize', () => {
-        drawWheel();
-        positionArrow();
-    });
-
-    document.getElementById("spinButton").addEventListener("click", spinWheel);
+    updateUI();
 });

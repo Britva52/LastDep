@@ -3,26 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LastDep Казино</title>
+    <title>LastDep</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'casino/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Winky Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Winky Sans:wght@400;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            cursor: none;
+            padding-top: 1px;
+            padding-bottom: 20px;
+        }
+
+        .page-wrapper {
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.7) 10%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transition: transform 0.1s ease;
+        }
+    </style>
 </head>
 <body>
-    <div class="home-page">
-        <header>
-            <h1>Приветствуем в LastDep!</h1>
-        </header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'games' %}">Игры</a></li>
-                <li><a href="{% url 'about' %}">О нас</a></li>
-                <li><a href="{% url 'contacts' %}">Контакты</a></li>
-                <li><a href="{% url 'support' %}">Поддержка</a></li>
-            </ul>
-        </nav>
+    <div id="cursor-glow"></div>
+    <div class="page-wrapper">
+        <div class="home-page">
+            <header>
+                <h1>LastDep</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'games' %}">Игры</a></li>
+                    <li><a href="{% url 'about' %}">О нас</a></li>
+                    <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                    <li><a href="{% url 'support' %}">Поддержка</a></li>
+                </ul>
+            </nav>
+        </div>
+        <footer>
+            <p>&copy; 2025 LastDep Казино</p>
+        </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursorGlow = document.getElementById('cursor-glow');
+
+            document.addEventListener('mousemove', function(e) {
+                cursorGlow.style.transform = `translate(-50%, -50%) translate(${e.clientX}px, ${e.clientY}px)`;
+            });
+        });
+    </script>
 </body>
 </html>

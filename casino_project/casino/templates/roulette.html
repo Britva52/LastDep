@@ -6,55 +6,11 @@
     <title>Рулетка</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'casino/style.css' %}">
-    <style>
-        .debug-info {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: monospace;
-            z-index: 1000;
-        }
 
-        /* Добавленные стили для стрелки */
-        .wheel-container {
-            position: relative;
-            width: fit-content;
-            margin: 0 auto;
-            padding-top: 40px;
-        }
-
-        .wheel-arrow {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 30px solid gold;
-            z-index: 100;
-            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
-        }
-
-        #wheelCanvas {
-            display: block;
-            margin: 0 auto;
-            border-radius: 50%;
-            background: #1a1a1a;
-            border: 3px solid #ffcc00;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-    </style>
 </head>
 <body>
     <div class="games-page">
         <h1>Рулетка</h1>
-
         <div class="wheel-container">
             <div class="wheel-arrow"></div>
             <canvas id="wheelCanvas" width="400" height="400"></canvas>
@@ -76,7 +32,6 @@
                 <div class="table-cell" data-number="11">11</div>
                 <div class="table-cell" data-number="12">12</div>
             </div>
-
             <div class="table-row">
                 <div class="table-cell" data-number="13">13</div>
                 <div class="table-cell" data-number="14">14</div>
@@ -91,7 +46,6 @@
                 <div class="table-cell" data-number="23">23</div>
                 <div class="table-cell" data-number="24">24</div>
             </div>
-
             <div class="table-row">
                 <div class="table-cell" data-number="25">25</div>
                 <div class="table-cell" data-number="26">26</div>
@@ -108,208 +62,24 @@
             </div>
         </div>
 
-        <div>
-            Выбранный номер: <span id="selectedNumberDisplay">—</span>
-        </div>
-
-        <div>
-            <label for="betAmount">Ставка:</label>
-            <input type="number" id="betAmount" value="10" min="1">
-        </div>
-
-        <button id="spinButton">Вращать</button>
-
-        <div>
-            Баланс: <span id="balance">1000</span>
-        </div>
-
-        <div>
-            Результат: <span id="result">—</span>
+        <div class="game-controls">
+            <div class="info-display">
+                Выбранный номер: <span id="selectedNumberDisplay">—</span>
+            </div>
+            <div class="bet-controls">
+                <label for="betAmount">Ставка:</label>
+                <input type="number" id="betAmount" value="10" min="1">
+            </div>
+            <button id="spinButton">Вращать</button>
+            <div class="info-display">
+                Баланс: <span id="balance">1000</span>
+            </div>
+            <div class="info-display">
+                Результат: <span id="result">—</span>
+            </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("Initializing roulette game...");
-
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            const betInput = document.getElementById('betAmount');
-            const balanceDisplay = document.getElementById('balance');
-            const resultDisplay = document.getElementById('result');
-            const spinButton = document.getElementById('spinButton');
-            const selectedNumberDisplay = document.getElementById('selectedNumberDisplay');
-
-            const state = {
-                balance: 1000,
-                currentBet: 0,
-                selectedNumber: null,
-                isSpinning: false,
-                currentRotation: 0
-            };
-
-            const sectors = [];
-            const redNumbers = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
-
-            for (let i = 0; i <= 36; i++) {
-                sectors.push({
-                    number: i,
-                    color: i === 0 ? 'green' : redNumbers.includes(i) ? 'red' : 'black',
-                    angle: (i * 2 * Math.PI) / 37
-                });
-            }
-
-            function drawWheel() {
-                const center = canvas.width / 2;
-                const radius = center - 20;
-                const sectorAngle = (2 * Math.PI) / sectors.length;
-
-                // Очистка и фон
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Внешний круг
-                ctx.beginPath();
-                ctx.arc(center, center, radius, 0, 2 * Math.PI);
-                ctx.fillStyle = '#2c3e50';
-                ctx.fill();
-
-                // Сектора
-                sectors.forEach((sector, i) => {
-                    const startAngle = i * sectorAngle + state.currentRotation;
-                    const endAngle = startAngle + sectorAngle;
-
-                    ctx.beginPath();
-                    ctx.moveTo(center, center);
-                    ctx.arc(center, center, radius, startAngle, endAngle);
-                    ctx.fillStyle = sector.color;
-                    ctx.fill();
-
-                    // Текст
-                    ctx.save();
-                    ctx.translate(center, center);
-                    ctx.rotate(startAngle + sectorAngle / 2);
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillStyle = 'white';
-                    ctx.font = 'bold 14px Arial';
-                    ctx.fillText(sector.number, radius * 0.7, 0);
-                    ctx.restore();
-                });
-
-                // Центр колеса
-                ctx.beginPath();
-                ctx.arc(center, center, 10, 0, 2 * Math.PI);
-                ctx.fillStyle = '#ecf0f1';
-                ctx.fill();
-            }
-
-            function spinWheel() {
-                if (state.isSpinning) {
-                    console.warn("Wheel is already spinning!");
-                    return;
-                }
-
-                state.currentBet = parseInt(betInput.value);
-                console.log(`Attempting bet: ${state.currentBet}`);
-
-                if (isNaN(state.currentBet) || state.currentBet <= 0) {
-                    alert("Пожалуйста, введите корректную сумму ставки!");
-                    return;
-                }
-
-                if (state.currentBet > state.balance) {
-                    alert("Недостаточно средств на балансе!");
-                    return;
-                }
-
-                if (state.selectedNumber === null) {
-                    alert("Пожалуйста, выберите число!");
-                    return;
-                }
-
-                state.isSpinning = true;
-                state.balance -= state.currentBet;
-                updateUI();
-
-                const spinDuration = 3000;
-                const startTime = Date.now();
-                const winningNumberIndex = Math.floor(Math.random() * 37); // 0-36
-                const winningNumber = sectors[winningNumberIndex].number;
-                const rotations = 5;
-
-                // Расчет конечного положения с учетом стрелки сверху
-                const sectorAngle = 2 * Math.PI / sectors.length;
-                const finalRotation = (rotations * 2 * Math.PI) +
-                                    (winningNumberIndex * sectorAngle) +
-                                    (Math.PI/2);
-
-                function animate() {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / spinDuration, 1);
-                    state.currentRotation = easeOut(progress, 0, finalRotation, spinDuration);
-
-                    drawWheel();
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        finishSpin(winningNumber);
-                    }
-                }
-
-                requestAnimationFrame(animate);
-            }
-
-            function finishSpin(winningNumber) {
-                state.isSpinning = false;
-
-                if (winningNumber == state.selectedNumber) {
-                    const winAmount = state.currentBet * 35;
-                    state.balance += winAmount;
-                    resultDisplay.textContent = `Победа! Выпало ${winningNumber}. Выигрыш: ${winAmount}`;
-                } else {
-                    resultDisplay.textContent = `Проигрыш. Выпало: ${winningNumber}`;
-                }
-
-                state.selectedNumber = null;
-                selectedNumberDisplay.textContent = '—';
-                document.querySelectorAll('.table-cell').forEach(c => c.classList.remove('selected'));
-
-                updateUI();
-            }
-
-            function easeOut(t, b, c, d) {
-                t /= d;
-                t--;
-                return c * (t * t * t + 1) + b;
-            }
-
-            function updateUI() {
-                balanceDisplay.textContent = state.balance;
-            }
-
-            document.querySelectorAll('.table-cell').forEach(cell => {
-                cell.addEventListener('click', function() {
-                    if (state.isSpinning) return;
-
-                    document.querySelectorAll('.table-cell').forEach(c => {
-                        c.classList.remove('selected');
-                    });
-
-                    this.classList.add('selected');
-                    state.selectedNumber = parseInt(this.dataset.number);
-                    selectedNumberDisplay.textContent = state.selectedNumber;
-                    console.log(`Выбрано число: ${state.selectedNumber}`);
-                });
-            });
-
-            spinButton.addEventListener('click', spinWheel);
-
-            // Инициализация
-            drawWheel();
-            updateUI();
-            console.log("Рулетка инициализирована!");
-        });
-    </script>
+    <script src="{% static 'casino/script.js' %}"></script>
 </body>
 </html>
