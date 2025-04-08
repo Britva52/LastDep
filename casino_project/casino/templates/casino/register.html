@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Регистрация</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'casino/style.css' %}">
-</head>
-<body>
-    <div class="auth-page">
-        <h1>Регистрация</h1>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Зарегистрироваться</button>
-            <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
-        </form>
-    </div>
-</body>
-</html>
+{% extends "casino/base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <h1>Регистрация</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Зарегистрироваться</button>
+        <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+    </form>
+</div>
+{% endblock %}
