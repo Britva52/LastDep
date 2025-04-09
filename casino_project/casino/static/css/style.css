@@ -1,7 +1,7 @@
 /* Base styles */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Gill Sans', sans-serif;
     color: white;
     background-color: #000;
 }
@@ -56,20 +56,7 @@ nav a:hover {
     box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
 }
 
-/* Custom cursor styles */
-.custom-cursor {
-    position: fixed;
-    width: 24px;
-    height: 24px;
-    background: radial-gradient(circle, gold 30%, rgba(255,215,0,0.3) 70%);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.05s ease;
-    mix-blend-mode: exclusion;
-    display: none; /* По умолчанию скрыт */
-}
+
 
 .page-section {
     max-width: 800px;
@@ -80,39 +67,9 @@ nav a:hover {
     border: 1px solid gold;
 }
 
-.cursor-toggle-btn {
-    padding: 10px 15px;
-    background: rgba(0,0,0,0.7);
-    color: gold;
-    border: 1px solid black !important;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    transition: all 0.3s;
-}
-
-.cursor-toggle-btn:hover {
-    background: rgba(255,215,0,0.2);
-}
-
 .home-content {
     padding: 30px;
     text-align: center;
-}
-
-.custom-cursor.active {
-    width: 40px;
-    height: 40px;
-    background-color: rgba(255, 215, 0, 0.5);
-}
-
-body.custom-cursor-enabled .custom-cursor {
-    display: block;
-}
-
-body.custom-cursor-enabled {
-    cursor: none !important;
 }
 
 /* ============== ROULETTE TABLE ============== */
@@ -187,7 +144,6 @@ body.custom-cursor-enabled {
     padding: 10px;
     text-align: center;
     border-radius: 3px;
-    cursor: pointer;
 }
 
 .zero-bet { background: green; color: white; }
@@ -238,7 +194,6 @@ body.custom-cursor-enabled {
     padding: 10px;
     text-align: center;
     border-radius: 3px;
-    cursor: pointer;
 }
 
 .outside-bet:hover {
@@ -279,7 +234,6 @@ body.custom-cursor-enabled {
     color: white;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
     font-weight: bold;
     transition: all 0.2s;
 }
