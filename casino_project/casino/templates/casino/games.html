@@ -15,13 +15,6 @@
         background: #000;
     }
 
-    .side-menu {
-        width: 200px;
-        background: #1a1a1a;
-        padding: 20px;
-        border-right: 2px solid gold;
-    }
-
     .game-content {
         flex: 1;
         padding: 20px;
@@ -35,10 +28,6 @@
         border: 10px solid #5d2906;
     }
 
-    /* Чёрные рамки для всех кнопок */
-    button, .nav-link, {
-        border: 1px solid #000 !important;
-    }
 </style>
 {% endblock %}
 
@@ -65,7 +54,7 @@
 
         <!-- Ставки -->
         <div class="bets-section">
-            <!-- Числа от 0 до 36 по порядку -->
+
             <div class="number-grid">
                 <div class="number-bet zero" data-bet-type="number" data-number="0">0</div>
                 {% for num in "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36"|split:"," %}
@@ -74,23 +63,33 @@
                 {% endfor %}
             </div>
 
-            <!-- Простые ставки -->
             <div class="simple-bets">
                 <div class="bet-row">
-                    <div class="outside-bet red-bet" data-bet-type="color" data-color="red">Красное</div>
-                    <div class="outside-bet black-bet" data-bet-type="color" data-color="black">Чёрное</div>
+                    <div class="outside-bet" data-bet-type="color" data-color="red">
+                        <i class="fas fa-square" style="color: #e74c3c;"></i> Красное
+                    </div>
+                    <div class="outside-bet" data-bet-type="color" data-color="black">
+                        <i class="fas fa-square" style="color: #000;"></i> Чёрное
+                    </div>
                 </div>
                 <div class="bet-row">
-                    <div class="outside-bet" data-bet-type="even">Чётное</div>
-                    <div class="outside-bet" data-bet-type="odd">Нечётное</div>
+                    <div class="outside-bet" data-bet-type="even">
+                        <i class="fas fa-divide"></i> Чётное
+                    </div>
+                    <div class="outside-bet" data-bet-type="odd">
+                        <i class="fas fa-not-equal"></i> Нечётное
+                    </div>
                 </div>
                 <div class="bet-row">
-                   <div class="outside-bet" data-bet-type="range" data-range-start="1" data-range-end="18">1-18</div>
-                   <div class="outside-bet" data-bet-type="range" data-range-start="19" data-range-end="36">19-36</div>
+                    <div class="outside-bet" data-bet-type="range" data-range-start="1" data-range-end="18">
+                        <i class="fas fa-arrow-down"></i> 1-18
+                    </div>
+                    <div class="outside-bet" data-bet-type="range" data-range-start="19" data-range-end="36">
+                        <i class="fas fa-arrow-up"></i> 19-36
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </div>
 {% endblock %}
 

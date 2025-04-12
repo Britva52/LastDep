@@ -1,4 +1,4 @@
-/* Base styles */
+
 body {
     margin: 0;
     font-family: 'Gill Sans', sans-serif;
@@ -6,7 +6,7 @@ body {
     background-color: #000;
 }
 
-/* Header styles */
+
 header {
     text-align: center;
     margin-bottom: 30px;
@@ -23,7 +23,7 @@ header h1 {
     letter-spacing: 2px;
 }
 
-/* Navigation styles */
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -72,7 +72,7 @@ nav a:hover {
     text-align: center;
 }
 
-/* ============== ROULETTE TABLE ============== */
+
 .roulette-container {
     display: flex;
     padding: 20px;
@@ -87,16 +87,6 @@ nav a:hover {
     pointer-events: none;
 }
 
-/* Wheel section (left) */
-.wheel-section {
-    margin-right: 30px;
-}
-
-.wheel-wrapper {
-    position: relative;
-    margin-bottom: 20px;
-}
-
 #wheelCanvas {
     display: block;
     border-radius: 50%;
@@ -105,21 +95,7 @@ nav a:hover {
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-.wheel-arrow {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 25px solid gold;
-    z-index: 10;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
-}
 
-/* Bets section (right) */
 .bets-section {
     flex: 1;
     padding: 20px;
@@ -128,7 +104,7 @@ nav a:hover {
     min-width: 400px;
 }
 
-/* Number bets grid */
+
 .number-bets {
     margin-bottom: 20px;
 }
@@ -178,29 +154,37 @@ nav a:hover {
     color: white;
 }
 
-/* Outside bets */
-.outside-bets {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.bet-row {
-    display: flex;
-    gap: 10px;
-}
 
 .outside-bet {
-    padding: 10px;
+    background: #1a1a1a;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
     text-align: center;
-    border-radius: 3px;
+    border: 1px solid gold !important;
+    margin: 5px;
+    transition: all 0.3s;
 }
 
 .outside-bet:hover {
-    background: #2a5a2a;
+    background: #333;
+    transform: scale(1.05);
 }
 
-/* Game controls */
+
+[data-bet-type="even"] {
+    background: linear-gradient(to right, #1a1a1a, #2c3e50);
+}
+
+[data-bet-type="odd"] {
+    background: linear-gradient(to right, #1a1a1a, #34495e);
+}
+
+[data-bet-type="range"] {
+    background: linear-gradient(to right, #1a1a1a, #16a085);
+}
+
+
 .game-controls {
     display: flex;
     flex-direction: column;
@@ -263,14 +247,14 @@ nav a:hover {
     width: 100%;
 }
 
-/* Selected elements */
+
 .selected {
     box-shadow: 0 0 15px gold;
     transform: scale(1.05);
     border: 2px solid gold !important;
 }
 
-/* Win/lose states */
+
 .win-result {
     background-color: rgba(46, 204, 113, 0.2);
     color: #2ecc71;
@@ -288,15 +272,27 @@ nav a:hover {
     100% { transform: scale(1); }
 }
 
-.winning {
-    animation: blink 0.5s 3, pulse 1s infinite;
-    box-shadow: 0 0 15px gold !important;
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.error-message {
+    animation: shake 0.5s;
+    color: #ff4444;
+    font-weight: bold;
 }
 
 @keyframes blink {
     0% { opacity: 1; }
     50% { opacity: 0.5; }
     100% { opacity: 1; }
+}
+
+.winning {
+    animation: blink 0.5s 3, pulse 1s infinite;
+    box-shadow: 0 0 15px gold !important;
 }
 
 /* СООБЩЕНИЯ */
@@ -308,7 +304,7 @@ nav a:hover {
     font-weight: bold;
 }
 
-/* Footer styles */
+
 footer {
     background-color: transparent;
     color: white;
@@ -317,14 +313,10 @@ footer {
     margin-top: 30px;
 }
 
-/* Responsive styles */
+
 @media (max-width: 900px) {
     .roulette-container {
         flex-direction: column;
-    }
-
-    .wheel-section, .bets-section {
-        min-width: auto;
     }
 
     .number-grid {
@@ -349,7 +341,12 @@ footer {
         grid-column: span 4;
     }
 
-    .bet-row {
-        flex-direction: column;
-    }
 }
+
+.wheel-wrapper {
+    position: relative;
+    width: 450px;
+    height: 450px;
+    margin: 0 auto;
+}
+
